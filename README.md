@@ -1,5 +1,4 @@
-# GoInsta !
-<p align="center"><img width=100% src="https://raw.github.com/ahmdrz/goinsta/master/resources/goinsta-image.png"></p>
+# This is a frozen version of goinsta v1
 
 > Unofficial Instagram API for Golang
 
