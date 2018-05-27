@@ -13,7 +13,7 @@ import (
 	"net/http/cookiejar"
 	"net/url"
 
-	"gopkg.in/ahmdrz/goinsta.v1"
+	"github.com/tducasse/goinsta"
 )
 
 // Secret is main struct for strore functions

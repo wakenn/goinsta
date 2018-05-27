@@ -18,7 +18,7 @@ import (
 	"strconv"
 	"time"
 
-	"gopkg.in/ahmdrz/goinsta.v1/response"
+	"github.com/tducasse/goinsta/response"
 )
 
 // GetSessions return current instagram session and cookies
