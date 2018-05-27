@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ahmdrz/goinsta"
+	"gopkg.in/ahmdrz/goinsta.v1"
 )
 
 func TestExportImport(t *testing.T) {

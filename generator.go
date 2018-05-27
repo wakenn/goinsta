@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/ahmdrz/goinsta/uuid"
+	"gopkg.in/ahmdrz/goinsta.v1/uuid"
 )
 
 const (

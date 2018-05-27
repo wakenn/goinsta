@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 
-	response "github.com/ahmdrz/goinsta/response"
+	response "gopkg.in/ahmdrz/goinsta.v1/response"
 )
 
 type Informations struct {
