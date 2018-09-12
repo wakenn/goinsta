@@ -4,6 +4,7 @@ package goinsta
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"image"
 	_ "image/jpeg"
@@ -18,7 +19,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/tducasse/goinsta/response"
+	"github.com/wakenn/goinsta/response"
 )
 
 // GetSessions return current instagram session and cookies
@@ -128,7 +129,21 @@ func New(username, password string) *Instagram {
 
 // Login to Instagram.
 // return error if can't send request to instagram server
-func (insta *Instagram) Login() error {
+
+type ErrorLoad struct {
+	Message   string `json:"message"`
+	Challenge struct {
+		URL        string `json:"url"`
+		APIPath    string `json:"api_path"`
+		Lock       bool   `json:"lock"`
+		Logout     bool   `json:"logout"`
+		NativeFlow bool   `json:"native_flow"`
+	} `json:"challenge"`
+	Status    string `json:"status"`
+	ErrorType string `json:"error_type"`
+}
+
+func (insta *Instagram) Login() (*ErrorLoad, error) {
 	insta.Cookiejar, _ = cookiejar.New(nil) //newJar()
 
 	body, err := insta.sendRequest(&reqOptions{
@@ -140,7 +155,10 @@ func (insta *Instagram) Login() error {
 		},
 	})
 	if err != nil {
-		return fmt.Errorf("login failed for %s error %s", insta.Informations.Username, err.Error())
+		// Unmarshal to error load
+		var load ErrorLoad
+		json.Unmarshal(body, &load)
+		return &load, fmt.Errorf("login failed for %s error %s - %s", insta.Informations.Username, err.Error(), load.ErrorType)
 	}
 
 	result, _ := json.Marshal(map[string]interface{}{
@@ -159,7 +177,15 @@ func (insta *Instagram) Login() error {
 		IsLoggedIn: true,
 	})
 	if err != nil {
-		return err
+		var load ErrorLoad
+		json.Unmarshal(body, &load)
+
+		// If it's a generic logged out error.. give it a suffix
+		if err == ErrLoggedOut && load.ErrorType != "" {
+			err = errors.New(err.Error() + " - " + load.ErrorType)
+		}
+
+		return &load, err
 	}
 
 	var Result struct {
@@ -169,7 +195,7 @@ func (insta *Instagram) Login() error {
 
 	err = json.Unmarshal(body, &Result)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	insta.LoggedInUser = Result.LoggedInUser
@@ -184,7 +210,7 @@ func (insta *Instagram) Login() error {
 	insta.GetRecentRecipients()
 	insta.MegaphoneLog()
 
-	return nil
+	return nil, nil
 }
 
 // Logout of Instagram

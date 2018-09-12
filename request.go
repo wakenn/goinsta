@@ -2,6 +2,7 @@ package goinsta
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -104,11 +105,19 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 		e := fmt.Errorf("Invalid status code %s", string(body))
 		switch resp.StatusCode {
 		case 400:
-			e = ErrLoggedOut
+			var load ErrorLoad
+			json.Unmarshal(body, &load)
+			if load.ErrorType == "bad_password" {
+				e = ErrBadPassword
+			} else if load.ErrorType == "checkpoint_challenge_required" {
+				e = ErrChallenge
+			} else {
+				e = ErrLoggedOut
+			}
 		case 404:
 			e = ErrNotFound
 		}
-		return nil, e
+		return body, e
 	}
 
 	return body, err
