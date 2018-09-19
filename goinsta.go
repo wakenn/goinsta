@@ -1149,8 +1149,6 @@ func (insta *Instagram) TotalUserFollowers(userID int64) (response.UsersResponse
 		}
 		resp.NextMaxID = temp_resp.NextMaxID
 		resp.Status = temp_resp.Status
-		// Sleep before next lookup
-		time.Sleep(13 * time.Second)
 	}
 }
 
