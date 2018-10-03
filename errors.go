@@ -11,4 +11,4 @@ var ErrLoggedOut = errors.New("The account is logged out")
 
 var ErrBadPassword = errors.New("The Instagram password you provided is incorrect")
 
-var ErrChallenge = errors.New("Instagram needs you to authorize our system logging into your account. Please check your email for a link we have sent you or login to your instagram app and click “This is me”")
+var ErrChallenge = errors.New("Instagram needs you to authorize our system logging into your account. Please check your email for a challenge link we have sent you or login to your instagram app and click “This is me”")
