@@ -107,7 +107,7 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 		case 400:
 			var load ErrorLoad
 			json.Unmarshal(body, &load)
-			if load.ErrorType == "bad_password" {
+			if load.ErrorType == "bad_password" || load.ErrorType == "invalid_user" || load.ErrorType == "unusable_password" {
 				e = ErrBadPassword
 			} else if load.ErrorType == "checkpoint_challenge_required" {
 				e = ErrChallenge
