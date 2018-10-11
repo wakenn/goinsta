@@ -81,7 +81,7 @@ type SearchLocationResponse struct {
 	} `json:"venues"`
 }
 
-func (s *SearchLocationResponse) Uniquie() *SearchLocationResponse {
+func (s *SearchLocationResponse) Unique() *SearchLocationResponse {
 	// De-dupe the venues
 	n := &SearchLocationResponse{
 		Status:    s.Status,
