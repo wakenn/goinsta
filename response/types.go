@@ -81,6 +81,28 @@ type SearchLocationResponse struct {
 	} `json:"venues"`
 }
 
+func (s *SearchLocationResponse) Uniquie() *SearchLocationResponse {
+	// De-dupe the venues
+	n := &SearchLocationResponse{
+		Status:    s.Status,
+		RequestID: s.RequestID,
+	}
+
+	for _, v := range s.Venues {
+		var found bool
+		for _, curr := range n.Venues {
+			if curr.ExternalID == v.ExternalID {
+				found = true
+				break
+			}
+		}
+		if !found {
+			n.Venues = append(n.Venues, v)
+		}
+	}
+	return n
+}
+
 // MediaItemResponse struct for each media item
 type MediaItemResponse struct {
 	TakenAt         int64  `json:"taken_at"`
