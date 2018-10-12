@@ -105,33 +105,33 @@ func (s *SearchLocationResponse) Unique() *SearchLocationResponse {
 
 // MediaItemResponse struct for each media item
 type MediaItemResponse struct {
-	TakenAt         int64  `json:"taken_at"`
-	Pk              int64  `json:"pk"`
-	ID              string `json:"id"`
-	DeviceTimeStamp int64  `json:"device_timestamp"`
-	MediaType       int    `json:"media_type"`
-	Code            string `json:"code"`
+	TakenAt         int64  `json:"taken_at,omitempty"`
+	Pk              int64  `json:"pk,omitempty"`
+	ID              string `json:"id,omitempty"`
+	DeviceTimeStamp int64  `json:"device_timestamp,omitempty"`
+	MediaType       int    `json:"media_type,omitempty"`
+	Code            string `json:"code,omitempty"`
 	// ClientCacheKey               string            `json:"client_cache_key"`
 	// FilterType                   int               `json:"filter_type"`
-	ImageVersions ImageVersions `json:"image_versions2"`
+	ImageVersions ImageVersions `json:"image_versions2,omitempty"`
 	// OriginalWidth                int               `json:"original_width"`
 	// OriginalHeight               int               `json:"original_height"`
-	Location Location `json:"location"`
-	Lat      float32  `json:"lat"`
-	Lng      float32  `json:"lng"`
-	User     User     `json:"user"`
+	Location Location `json:"location,omitempty"`
+	Lat      float32  `json:"lat,omitempty"`
+	Lng      float32  `json:"lng,omitempty"`
+	User     User     `json:"user,omitempty"`
 	// OrganicTrackingToken         string            `json:"organic_tracking_token"`
-	LikeCount int `json:"like_count"`
+	LikeCount int `json:"like_count,omitempty"`
 	// TopLikers                    []string          `json:"top_likers,omitempty"`
-	HasLiked bool `json:"has_liked"`
+	HasLiked bool `json:"has_liked,omitempty"`
 	// HasMoreComments              bool              `json:"has_more_comments"`
 	// MaxNumVisiblePreviewComments int               `json:"max_num_visible_preview_comments"`
 	// PreviewComments              []CommentResponse `json:"preview_comments,omitempty"`
 	// Comments                     []CommentResponse `json:"comments,omitempty"`
-	CommentCount    int     `json:"comment_count"`
+	CommentCount    int     `json:"comment_count,omitempty"`
 	Caption         Caption `json:"caption,omitempty"`
-	CaptionIsEdited bool    `json:"caption_is_edited"`
-	PhotoOfYou      bool    `json:"photo_of_you"`
+	CaptionIsEdited bool    `json:"caption_is_edited,omitempty"`
+	PhotoOfYou      bool    `json:"photo_of_you,omitempty"`
 	Int64Pagination
 }
 
