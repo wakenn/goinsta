@@ -314,14 +314,14 @@ type Caption struct {
 
 // Location struct mean where photo or video taken
 type Location struct {
-	ExternalSource   string  `json:"external_source"`
+	ExternalSource   string  `json:"external_source,omitempty"`
 	City             string  `json:"city,omitempty"`
-	Name             string  `json:"name"`
-	FacebookPlacesID int64   `json:"facebook_places_id"`
-	Address          string  `json:"address"`
-	Lat              float32 `json:"lat"`
-	Lng              float32 `json:"lng"`
-	Pk               int64   `json:"pk"`
+	Name             string  `json:"name,omitempty"`
+	FacebookPlacesID int64   `json:"facebook_places_id,omitempty"`
+	Address          string  `json:"address,omitempty"`
+	Lat              float32 `json:"lat,omitempty"`
+	Lng              float32 `json:"lng,omitempty"`
+	Pk               int64   `json:"pk,omitempty"`
 }
 
 // CommentResponse struct is a object for comment under media
