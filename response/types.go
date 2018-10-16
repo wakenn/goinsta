@@ -636,19 +636,8 @@ type Item struct {
 	ImageVersions2  ImageVersions `json:"image_versions2"`
 	OriginalWidth   int           `json:"original_width"`
 	OriginalHeight  int           `json:"original_height"`
-	User            struct {
-		Username                   string `json:"username"`
-		HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
-		IsUnpublished              bool   `json:"is_unpublished"`
-		IsFavorite                 bool   `json:"is_favorite"`
-		ProfilePicURL              string `json:"profile_pic_url"`
-		ProfilePicID               string `json:"profile_pic_id"`
-		FullName                   string `json:"full_name"`
-		Pk                         int64  `json:"pk"`
-		IsVerified                 bool   `json:"is_verified"`
-		IsPrivate                  bool   `json:"is_private"`
-	} `json:"user"`
-	CarouselMedia []struct {
+	User            User          `json:"user"`
+	CarouselMedia   []struct {
 		ID            string        `json:"id"`
 		MediaType     int           `json:"media_type"`
 		ImageVersions ImageVersions `json:"image_versions2"`
@@ -672,34 +661,10 @@ type Item struct {
 	PreviewComments              []CommentResponse `json:"preview_comments"`
 	Comments                     []CommentResponse `json:"comments"`
 	CommentCount                 int               `json:"comment_count"`
-	Caption                      struct {
-		Status       string `json:"status"`
-		UserID       int    `json:"user_id"`
-		CreatedAtUtc int    `json:"created_at_utc"`
-		CreatedAt    int    `json:"created_at"`
-		BitFlags     int    `json:"bit_flags"`
-		User         struct {
-			Username                   string `json:"username"`
-			HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
-			IsUnpublished              bool   `json:"is_unpublished"`
-			IsFavorite                 bool   `json:"is_favorite"`
-			ProfilePicURL              string `json:"profile_pic_url"`
-			ProfilePicID               string `json:"profile_pic_id"`
-			FullName                   string `json:"full_name"`
-			Pk                         int64  `json:"pk"`
-			IsVerified                 bool   `json:"is_verified"`
-			IsPrivate                  bool   `json:"is_private"`
-		} `json:"user"`
-		ContentType    string `json:"content_type"`
-		Text           string `json:"text"`
-		MediaID        int64  `json:"media_id"`
-		Pk             int64  `json:"pk"`
-		HasTranslation bool   `json:"has_translation"`
-		Type           int    `json:"type"`
-	} `json:"caption"`
-	CaptionIsEdited bool `json:"caption_is_edited"`
-	PhotoOfYou      bool `json:"photo_of_you"`
-	UserTags        struct {
+	Caption                      Caption           `json:"caption"`
+	CaptionIsEdited              bool              `json:"caption_is_edited"`
+	PhotoOfYou                   bool              `json:"photo_of_you"`
+	UserTags                     struct {
 		In []struct {
 			Position    []float64   `json:"position"`
 			TimeInVideo interface{} `json:"time_in_video"`
@@ -720,9 +685,35 @@ type Item struct {
 		Type   int    `json:"type"`
 		Height int    `json:"height"`
 	} `json:"video_versions,omitempty"`
-	HasAudio      bool    `json:"has_audio,omitempty"`
-	VideoDuration float64 `json:"video_duration,omitempty"`
-	NextMaxID     int64   `json:"next_max_id,omitempty"`
+	HasAudio      bool     `json:"has_audio,omitempty"`
+	VideoDuration float64  `json:"video_duration,omitempty"`
+	Location      Location `json:"location,omitempty"`
+	Lat           float32  `json:"lat,omitempty"`
+	Lng           float32  `json:"lng,omitempty"`
+	NextMaxID     int64    `json:"next_max_id,omitempty"`
+}
+
+func (t Item) AsMediaItem() MediaItemResponse {
+	return MediaItemResponse{
+		TakenAt:         t.TakenAt,
+		Pk:              t.Pk,
+		ID:              t.ID,
+		DeviceTimeStamp: t.DeviceTimestamp,
+		MediaType:       t.MediaType,
+		Code:            t.Code,
+		ImageVersions:   t.ImageVersions2,
+		Location:        t.Location,
+		Lat:             t.Lat,
+		Lng:             t.Lng,
+		User:            t.User,
+		LikeCount:       t.LikeCount,
+		HasLiked:        t.HasLiked,
+		CommentCount:    t.CommentCount,
+		Caption:         t.Caption,
+		CaptionIsEdited: t.CaptionIsEdited,
+		PhotoOfYou:      t.PhotoOfYou,
+		Int64Pagination: Int64Pagination{t.NextMaxID},
+	}
 }
 
 // DirectMessageResponse contains direct messages
