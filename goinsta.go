@@ -264,17 +264,17 @@ func (insta *Instagram) UserFollowers(userID int64, maxID string) (response.User
 
 // LatestFeed - Get the latest page of your own Instagram feed.
 func (insta *Instagram) LatestFeed() (response.UserFeedResponse, error) {
-	return insta.UserFeed(insta.LoggedInUser.ID, "", "")
+	return insta.UserFeed(insta.LoggedInUser.ID, "", "", "")
 }
 
 // LatestUserFeed - Get the latest Instagram feed for the given user id
 func (insta *Instagram) LatestUserFeed(userID int64) (response.UserFeedResponse, error) {
-	return insta.UserFeed(userID, "", "")
+	return insta.UserFeed(userID, "", "", "")
 }
 
 // UserFeed - Returns the Instagram feed for the given user id.
 // You can use maxID and minTimestamp for pagination, otherwise leave them empty to get the latest page only.
-func (insta *Instagram) UserFeed(userID int64, maxID, minTimestamp string) (response.UserFeedResponse, error) {
+func (insta *Instagram) UserFeed(userID int64, maxID, minTimestamp, maxTimestamp string) (response.UserFeedResponse, error) {
 	resp := response.UserFeedResponse{}
 
 	body, err := insta.sendRequest(&reqOptions{
@@ -282,6 +282,7 @@ func (insta *Instagram) UserFeed(userID int64, maxID, minTimestamp string) (resp
 		Query: map[string]string{
 			"max_id":         maxID,
 			"rank_token":     insta.Informations.RankToken,
+			"max_timestamp":  maxTimestamp,
 			"min_timestamp":  minTimestamp,
 			"ranked_content": "true",
 		},
