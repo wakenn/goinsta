@@ -11,12 +11,14 @@ import (
 	_ "image/png"
 	"io"
 	"io/ioutil"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/wakenn/goinsta/response"
@@ -648,6 +650,10 @@ func (insta *Instagram) TagFeed(tag string) (response.TagFeedsResponse, error) {
 			"ranked_content": "true",
 		},
 	})
+
+	if strings.Contains(insta.LoggedInUser.Username, "elements_massage_rvc") {
+		log.Println("WHAT", string(body))
+	}
 	if err != nil {
 		return response.TagFeedsResponse{}, err
 	}
