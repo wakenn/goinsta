@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -113,6 +114,7 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 				e = ErrChallenge
 			} else {
 				e = ErrLoggedOut
+				log.Println("Logged out!", string(body))
 			}
 		case 404:
 			e = ErrNotFound
