@@ -72,13 +72,26 @@ type SearchLocationResponse struct {
 	Status    string `json:"status"`
 	RequestID string `json:"request_id"`
 	Venues    []struct {
-		ExternalIDSource string  `json:"external_id_source"`
-		ExternalID       string  `json:"external_id"`
-		Lat              float64 `json:"lat"`
-		Lng              float64 `json:"lng"`
-		Address          string  `json:"address"`
-		Name             string  `json:"name"`
+		ExternalIDSource string   `json:"external_id_source"`
+		ExternalID       IntOrStr `json:"external_id"`
+		Lat              float64  `json:"lat"`
+		Lng              float64  `json:"lng"`
+		Address          string   `json:"address"`
+		Name             string   `json:"name"`
 	} `json:"venues"`
+}
+
+type IntOrStr string
+
+func (i *IntOrStr) UnmarshalJSON(p []byte) (_ error) {
+	switch {
+	case len(p) == 0:
+	case p[0] == '"':
+		p = p[1 : len(p)-1]
+	}
+	*i = IntOrStr(p)
+
+	return
 }
 
 func (s *SearchLocationResponse) Unique() *SearchLocationResponse {
