@@ -11,7 +11,6 @@ import (
 	_ "image/png"
 	"io"
 	"io/ioutil"
-	"log"
 	"mime/multipart"
 	"net/http"
 	"net/http/cookiejar"
@@ -596,7 +595,7 @@ func (insta *Instagram) SearchLocation(lat, lng, search string) (response.Search
 		Query:    query,
 	})
 
-	log.Println("BODY", string(body))
+	// log.Println("BODY", string(body))
 
 	if err != nil {
 		return response.SearchLocationResponse{}, err
