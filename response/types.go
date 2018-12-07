@@ -141,10 +141,11 @@ type MediaItemResponse struct {
 	// MaxNumVisiblePreviewComments int               `json:"max_num_visible_preview_comments"`
 	// PreviewComments              []CommentResponse `json:"preview_comments,omitempty"`
 	// Comments                     []CommentResponse `json:"comments,omitempty"`
-	CommentCount    int     `json:"comment_count,omitempty"`
-	Caption         Caption `json:"caption,omitempty"`
-	CaptionIsEdited bool    `json:"caption_is_edited,omitempty"`
-	PhotoOfYou      bool    `json:"photo_of_you,omitempty"`
+	CommentCount    int      `json:"comment_count,omitempty"`
+	Caption         Caption  `json:"caption,omitempty"`
+	CaptionIsEdited bool     `json:"caption_is_edited,omitempty"`
+	PhotoOfYou      bool     `json:"photo_of_you,omitempty"`
+	Meta            []string `json:"metaData,omitempty"` // Meta data
 	Int64Pagination
 }
 
