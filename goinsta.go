@@ -1129,6 +1129,7 @@ func (insta *Instagram) TotalUserFollowing(userID int64) (response.UsersResponse
 		if err != nil {
 			return response.UsersResponse{}, err
 		}
+		time.Sleep(3 * time.Second)
 		resp.Users = append(resp.Users, temp_resp.Users...)
 		resp.PageSize += temp_resp.PageSize
 		if !temp_resp.BigList {
@@ -1146,6 +1147,8 @@ func (insta *Instagram) TotalUserFollowers(userID int64) (response.UsersResponse
 		if err != nil {
 			return response.UsersResponse{}, err
 		}
+		time.Sleep(3 * time.Second)
+
 		resp.Users = append(resp.Users, temp_resp.Users...)
 		resp.PageSize += temp_resp.PageSize
 		if !temp_resp.BigList {
