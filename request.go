@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 type reqOptions struct {
@@ -66,7 +67,8 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 	req.Header.Set("User-Agent", GOINSTA_USER_AGENT)
 
 	client := &http.Client{
-		Jar: insta.Cookiejar,
+		Jar:     insta.Cookiejar,
+		Timeout: time.Minute * 3,
 	}
 
 	if insta.Proxy != "" {
