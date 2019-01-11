@@ -17,6 +17,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/wakenn/goinsta/response"
@@ -1203,6 +1204,21 @@ func (insta *Instagram) SearchUsername(query string) (response.SearchUserRespons
 	err = json.Unmarshal(body, &result)
 
 	return result, err
+}
+
+func (insta *Instagram) FindUser(query string) (int64, error) {
+	res, err := insta.SearchUsername(query)
+	if err != nil {
+		return 0, err
+	}
+
+	for _, u := range res.Users {
+		if strings.EqualFold(u.Username, query) {
+			return u.Pk, nil
+		}
+	}
+
+	return 0, nil
 }
 
 func (insta *Instagram) SearchTags(query string) (response.SearchTagsResponse, error) {
