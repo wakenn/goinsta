@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -98,6 +99,10 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 		}
 	}
 
+	if sz := respSize(resp); sz > 15000 {
+		log.Println("Large hit:", GOINSTA_API_URL+o.Endpoint, sz)
+	}
+
 	body, err = ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return
@@ -124,4 +129,12 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 	}
 
 	return body, err
+}
+
+func respSize(resp *http.Response) int {
+	var buf bytes.Buffer
+	buf.ReadFrom(resp.Body)
+	resp.Body.Close()
+	resp.Body = ioutil.NopCloser(&buf)
+	return buf.Len()
 }

@@ -11,6 +11,7 @@ import (
 	_ "image/png"
 	"io"
 	"io/ioutil"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"net/http/cookiejar"
@@ -370,6 +371,76 @@ func (insta *Instagram) SyncFeatures() error {
 		PostData: generateSignature(data),
 	})
 	return err
+}
+
+func (insta *Instagram) RequestVerification(client *http.Client, endpoint string) (string, error) {
+	req, _ := http.NewRequest("GET", endpoint, nil)
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	var csrfToken string
+	u, _ := url.Parse(GOINSTA_API_URL)
+	for _, value := range client.Jar.Cookies(u) {
+		if strings.Contains(value.Name, "csrftoken") {
+			csrfToken = value.Value
+			break
+		}
+	}
+
+	form := url.Values{}
+	form.Add("choice", "1")
+
+	req, _ = http.NewRequest("POST", endpoint, strings.NewReader(form.Encode()))
+	req.Header.Set("X-CSRFToken", csrfToken)
+	req.Header.Set("Referer", endpoint)
+	req.Header.Set("Connection", "close")
+	req.Header.Set("Accept", "*/*")
+	req.Header.Set("Content-type", "application/x-www-form-urlencoded; charset=UTF-8")
+	req.Header.Set("Cookie2", "$Version=1")
+	req.Header.Set("Accept-Language", "en-US")
+	req.Header.Set("User-Agent", GOINSTA_USER_AGENT)
+
+	resp, err = client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	return csrfToken, nil
+
+}
+
+func (insta *Instagram) SubmitVerification(client *http.Client, endpoint, code, csrfToken string) error {
+	log.Println("SUBMITTING VERIFICATION", endpoint)
+	form := url.Values{}
+	form.Add("security_code", code)
+
+	req, _ := http.NewRequest("POST", endpoint, strings.NewReader(form.Encode()))
+	req.Header.Set("X-CSRFToken", csrfToken)
+	req.Header.Set("Referer", endpoint)
+	req.Header.Set("Connection", "close")
+	req.Header.Set("Accept", "*/*")
+	req.Header.Set("Content-type", "application/x-www-form-urlencoded; charset=UTF-8")
+	req.Header.Set("Cookie2", "$Version=1")
+	req.Header.Set("Accept-Language", "en-US")
+	req.Header.Set("User-Agent", GOINSTA_USER_AGENT)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		// out, _ := ioutil.ReadAll(resp.Body)
+		log.Println("WHATS STATUS", resp.StatusCode)
+		return fmt.Errorf("Failed to complete verification") //, string(out)[0:1000])
+	}
+
+	return nil
+
 }
 
 // AutoCompleteUserList simulates Instagram app behavior
