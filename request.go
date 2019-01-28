@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -96,12 +95,6 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 	for _, value := range insta.Cookiejar.Cookies(u) {
 		if strings.Contains(value.Name, "csrftoken") {
 			insta.Informations.Token = value.Value
-		}
-	}
-
-	if insta.Proxy != "" {
-		if sz := respSize(resp); sz > 15000 {
-			log.Println("Large hit:", GOINSTA_API_URL+o.Endpoint, sz)
 		}
 	}
 
