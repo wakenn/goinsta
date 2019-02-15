@@ -104,7 +104,7 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 	}
 
 	if resp.StatusCode != 200 && !o.IgnoreStatus {
-		e := fmt.Errorf("Invalid status code %s", string(body))
+		e := fmt.Errorf("Invalid status code %s %d", string(body), resp.StatusCode)
 		switch resp.StatusCode {
 		case 400:
 			var load ErrorLoad
