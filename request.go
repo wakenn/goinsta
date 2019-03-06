@@ -116,7 +116,7 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 				e = ErrChallenge
 			} else {
 				e = ErrLoggedOut
-				log.Println("Logged out!", string(body))
+				log.Println("Logged out!", load.ErrorType, string(body))
 			}
 		case 404:
 			e = ErrNotFound
