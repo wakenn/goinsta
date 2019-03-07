@@ -114,6 +114,8 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 				e = ErrBadPassword
 			} else if load.ErrorType == "checkpoint_challenge_required" {
 				e = ErrChallenge
+			} else if load.Message == "Not authorized to view user" {
+				e = ErrPrivate
 			} else {
 				e = ErrLoggedOut
 				log.Println("Logged out!", load.ErrorType, string(body))
