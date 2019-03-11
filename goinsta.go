@@ -613,14 +613,14 @@ func (insta *Instagram) RemoveProfilePicture() (response.ProfileDataResponse, er
 // GetuserID return information of a user by user ID
 func (insta *Instagram) GetUserByID(userID int64) (response.GetUsernameResponse, error) {
 	result := response.GetUsernameResponse{}
-	data, err := insta.prepareData()
-	if err != nil {
-		return result, err
-	}
+	// data, err := insta.prepareData()
+	// if err != nil {
+	// 	return result, err
+	// }
 
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf("users/%d/info/", userID),
-		PostData: generateSignature(data),
+		// PostData: generateSignature(data),
 	})
 	if err != nil {
 		return result, err
