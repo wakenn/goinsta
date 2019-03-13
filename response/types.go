@@ -38,6 +38,11 @@ type User struct {
 	IsUnpublished              bool   `json:"is_unpublished"`
 }
 
+type SimpleUser struct {
+	Username string `json:"username"`
+	ID       int64  `json:"pk"`
+}
+
 // FeedsResponse struct contains array of media and can pagination
 type FeedsResponse struct {
 	StatusResponse
