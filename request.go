@@ -120,6 +120,10 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 				e = ErrLoggedOut
 				log.Println("Logged out!", load.ErrorType, string(body))
 			}
+		case 403:
+			if strings.Contains(strings.ToLower(string(body)), "login_required") {
+				e = ErrLoggedOut
+			}
 		case 404:
 			e = ErrNotFound
 		}
