@@ -1459,3 +1459,83 @@ func (insta *Instagram) prepareData(otherData ...map[string]interface{}) (string
 	bytes, err := json.Marshal(data)
 	return string(bytes), err
 }
+
+type Contact struct {
+	Numbers []string `json:"phone_numbers"`
+	Emails  []string `json:"email_addresses"`
+	Name    string   `json:"first_name"`
+}
+
+type SyncAnswer struct {
+	Users   []*SyncUser `json:"users"`
+	Warning string      `json:"warning"`
+	Status  string      `json:"status"`
+}
+
+type SyncUser struct {
+	Pk                         int64  `json:"pk"`
+	Username                   string `json:"username"`
+	FullName                   string `json:"full_name"`
+	IsPrivate                  bool   `json:"is_private"`
+	ProfilePicURL              string `json:"profile_pic_url"`
+	ProfilePicID               string `json:"profile_pic_id"`
+	IsVerified                 bool   `json:"is_verified"`
+	HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
+	ReelAutoArchive            string `json:"real_auto_archive"`
+	AddressbookName            string `json:"addressbook_name"`
+}
+
+func (insta *Instagram) SyncContacts(contacts []*Contact) (*SyncAnswer, error) {
+	// empty := `{"phone_numbers":[],"email_addresses":[]}`
+	// acquireContacts := &reqOptions{
+	// 	Endpoint: "address_book/acquire_owner_contacts/",
+	// 	Query: map[string]string{
+	// 		"phone_id": insta.Informations.PhoneID,
+	// 		"me":       `{"phone_numbers":[],"email_addresses":[]}`,
+	// 	},
+	// 	PostData: fmt.Sprintf("_csrftoken=%s&_uuid=%sf&contacts=%s", insta.Informations.Token, insta.Informations.UUID, url.QueryEscape(string(empty))),
+	// }
+	// body, err := insta.sendRequest(acquireContacts)
+	// if err != nil {
+	// 	log.Println("ACQUISITOON ERR", err)
+	// 	return nil, err
+	// }
+
+	byteContacts, err := json.Marshal(contacts)
+	if err != nil {
+		return nil, err
+	}
+
+	syncContacts := &reqOptions{
+		Endpoint: `address_book/link/`,
+		PostData: fmt.Sprintf("_csrftoken=%s&_uuid=%sf&contacts=%s", insta.Informations.Token, insta.Informations.UUID, url.QueryEscape(string(byteContacts))),
+	}
+
+	body, err := insta.sendRequest(syncContacts)
+	if err != nil {
+		return nil, err
+	}
+
+	answ := &SyncAnswer{}
+	json.Unmarshal(body, answ)
+	return answ, nil
+}
+
+func (insta *Instagram) UnlinkContacts() error {
+	data, err := insta.prepareData(map[string]interface{}{
+		"id":          insta.LoggedInUser.ID,
+		"experiments": GOINSTA_EXPERIMENTS,
+	})
+	if err != nil {
+		return err
+	}
+
+	_, err = insta.sendRequest(&reqOptions{
+		Endpoint: "address_book/unlink/",
+		PostData: generateSignature(data),
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
