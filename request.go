@@ -65,9 +65,10 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 	req.Header.Set("Content-type", "application/x-www-form-urlencoded; charset=UTF-8")
 	req.Header.Set("Cookie2", "$Version=1")
 	req.Header.Set("Accept-Language", "en-US")
-	req.Header.Set("User-Agent", GOINSTA_USER_AGENT)
 	if insta.IsNick {
-		log.Println("WE MAKING IT HERE!", insta.IsNick, GOINSTA_USER_AGENT)
+		req.Header.Set("User-Agent", GOINSTA_NEW_USER_AGENT)
+	} else {
+		req.Header.Set("User-Agent", GOINSTA_USER_AGENT)
 	}
 
 	client := &http.Client{
