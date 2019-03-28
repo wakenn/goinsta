@@ -21,6 +21,7 @@ type Instagram struct {
 	Cookiejar *cookiejar.Jar
 	InstaType
 	Transport http.Transport
+	IsNick    bool
 }
 
 type InstaType struct {

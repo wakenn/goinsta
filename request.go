@@ -66,6 +66,9 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 	req.Header.Set("Cookie2", "$Version=1")
 	req.Header.Set("Accept-Language", "en-US")
 	req.Header.Set("User-Agent", GOINSTA_USER_AGENT)
+	if insta.IsNick {
+		log.Println("WE MAKING IT HERE!", insta.IsNick, GOINSTA_USER_AGENT)
+	}
 
 	client := &http.Client{
 		Jar:     insta.Cookiejar,
