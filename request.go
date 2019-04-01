@@ -104,7 +104,7 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 	}
 
 	if insta.Proxy != "" {
-		if sz := respSize(resp); sz > 150 {
+		if sz := respSize(resp); sz > 10000 {
 			log.Println("Large hit:", GOINSTA_API_URL+o.Endpoint, sz)
 		}
 	}
