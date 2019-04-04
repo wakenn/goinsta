@@ -504,16 +504,16 @@ func (insta *Instagram) Expose() error {
 // MediaInfo return media information
 func (insta *Instagram) MediaInfo(mediaID string) (response.MediaInfoResponse, error) {
 	result := response.MediaInfoResponse{}
-	data, err := insta.prepareData(map[string]interface{}{
-		"media_id": mediaID,
-	})
-	if err != nil {
-		return result, err
-	}
+	// data, err := insta.prepareData(map[string]interface{}{
+	// 	"media_id": mediaID,
+	// })
+	// if err != nil {
+	// 	return result, err
+	// }
 
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf("media/%s/info/", mediaID),
-		PostData: generateSignature(data),
+		// PostData: generateSignature(data),
 	})
 	if err != nil {
 		return result, err
