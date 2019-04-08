@@ -28,8 +28,6 @@ type InstaType struct {
 	IsLoggedIn   bool
 	Informations Informations
 	LoggedInUser response.User
-
-	Proxy string
 }
 
 type BackupType struct {

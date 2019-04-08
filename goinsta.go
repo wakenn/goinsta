@@ -108,7 +108,7 @@ var GOINSTA_DEVICE_SETTINGS = map[string]interface{}{
 // NewViaProxy All requests will use proxy server (example http://<ip>:<port>)
 func NewViaProxy(username, password, proxy string) *Instagram {
 	insta := New(username, password)
-	insta.Proxy = proxy
+	insta.SetProxy(proxy)
 	return insta
 }
 
@@ -144,6 +144,15 @@ type ErrorLoad struct {
 	} `json:"challenge"`
 	Status    string `json:"status"`
 	ErrorType string `json:"error_type"`
+}
+
+func (insta *Instagram) SetProxy(p string) error {
+	purl, err := url.Parse(p)
+	if err != nil {
+		return err
+	}
+	insta.Transport.Proxy = http.ProxyURL(purl)
+	return nil
 }
 
 func (insta *Instagram) Login() (*ErrorLoad, error) {
