@@ -1733,3 +1733,28 @@ type RecentActivityResponse struct {
 		Type int64 `json:"type,omitempty"`
 	} `json:"old_stories,omitempty"`
 }
+
+type Section struct {
+	Sections      []LayoutSection `json:"sections"`
+	MoreAvailable bool            `json:"more_available"`
+	NextPage      int             `json:"next_page"`
+	NextMediaIds  []int64         `json:"next_media_ids"`
+	NextMaxID     string          `json:"next_max_id"`
+	Status        string          `json:"status"`
+}
+
+type LayoutSection struct {
+	LayoutType    string `json:"layout_type"`
+	LayoutContent struct {
+		Medias []struct {
+			Media MediaItemResponse `json:"media"`
+		} `json:"medias"`
+	} `json:"layout_content"`
+	FeedType        string `json:"feed_type"`
+	ExploreItemInfo struct {
+		NumColumns      int  `json:"num_columns"`
+		TotalNumColumns int  `json:"total_num_columns"`
+		AspectRatio     int  `json:"aspect_ratio"`
+		Autoplay        bool `json:"autoplay"`
+	} `json:"explore_item_info"`
+}

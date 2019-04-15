@@ -710,6 +710,28 @@ func (insta *Instagram) GetLocationFeed(locationID int64, maxID string) (respons
 	return resp, err
 }
 
+// GetLocationFeed return location feed data by locationID in Instagram
+func (insta *Instagram) GetLocationFeedV2(locationID int64) (response.Section, error) {
+	data, err := insta.prepareData(map[string]interface{}{
+		"rank_token":     insta.Informations.RankToken,
+		"ranked_content": "true",
+		"_csrftoken":     insta.Informations.Token,
+		"_uuid":          strconv.Itoa(int(insta.LoggedInUser.ID)),
+	})
+	body, err := insta.sendRequest(&reqOptions{
+		Endpoint: fmt.Sprintf("locations/%d/sections/", locationID),
+		PostData: generateSignature(data),
+	})
+
+	if err != nil {
+		return response.Section{}, err
+	}
+
+	resp := response.Section{}
+	err = json.Unmarshal(body, &resp)
+	return resp, err
+}
+
 // GetTagRelated can get related tags by tags in instagram
 func (insta *Instagram) GetTagRelated(tag string) (response.TagRelatedResponse, error) {
 	body, err := insta.sendRequest(&reqOptions{
