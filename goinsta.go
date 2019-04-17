@@ -1068,10 +1068,16 @@ func (insta *Instagram) RemoveSelfTag(mediaID string) ([]byte, error) {
 	})
 }
 
-func (insta *Instagram) Comment(mediaID, text string) ([]byte, error) {
-	data, err := insta.prepareData(map[string]interface{}{
+func (insta *Instagram) Comment(mediaID, text, replyCommentID string) ([]byte, error) {
+	m := map[string]interface{}{
 		"comment_text": text,
-	})
+	}
+
+	if replyCommentID != "" && strings.Contains(text, "@") {
+		m["replied_to_comment_id"] = replyCommentID
+	}
+
+	data, err := insta.prepareData(m)
 	if err != nil {
 		return []byte{}, err
 	}
@@ -1115,8 +1121,8 @@ func (insta *Instagram) GetV2Inbox(cursor string) (response.DirectListResponse, 
 	return result, err
 }
 
-func (insta *Instagram) GetDirectPendingRequests() (response.DirectPendingRequests, error) {
-	result := response.DirectPendingRequests{}
+func (insta *Instagram) GetDirectPendingRequests() (response.DirectListResponse, error) {
+	result := response.DirectListResponse{}
 	body, err := insta.sendSimpleRequest("direct_v2/pending_inbox/?")
 	if err != nil {
 		return result, err
