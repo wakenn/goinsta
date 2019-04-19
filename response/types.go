@@ -154,6 +154,10 @@ type MediaItemResponse struct {
 	Int64Pagination
 }
 
+func (m MediaItemResponse) Exists() bool {
+	return m.Code != ""
+}
+
 // LocationFeedResponse ...
 type LocationFeedResponse struct {
 	Status              string              `json:"status"`
