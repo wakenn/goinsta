@@ -26,16 +26,16 @@ type UsersResponse struct {
 
 // User , Instagram user informations
 type User struct {
-	Username                   string `json:"username"`
-	HasAnonymousProfilePicture bool   `json:"has_anonymouse_profile_picture"`
-	ProfilePictureID           string `json:"profile_pic_id"`
-	ProfilePictureURL          string `json:"profile_pic_url"`
-	FullName                   string `json:"full_name"`
-	ID                         int64  `json:"pk"`
-	IsVerified                 bool   `json:"is_verified"`
-	IsPrivate                  bool   `json:"is_private"`
-	IsFavorite                 bool   `json:"is_favorite"`
-	IsUnpublished              bool   `json:"is_unpublished"`
+	Username string `json:"username,omitempty"`
+	// HasAnonymousProfilePicture bool   `json:"has_anonymouse_profile_picture"`
+	// ProfilePictureID           string `json:"profile_pic_id"`
+	ProfilePictureURL string `json:"profile_pic_url,omitempty"`
+	FullName          string `json:"full_name,omitempty"`
+	ID                int64  `json:"pk,omitempty"`
+	IsVerified        bool   `json:"is_verified,omitempty"`
+	IsPrivate         bool   `json:"is_private,omitempty"`
+	// IsFavorite        bool   `json:"is_favorite"`
+	// IsUnpublished     bool   `json:"is_unpublished"`
 }
 
 type SimpleUser struct {
@@ -123,35 +123,35 @@ func (s *SearchLocationResponse) Unique() *SearchLocationResponse {
 
 // MediaItemResponse struct for each media item
 type MediaItemResponse struct {
-	TakenAt         int64  `json:"taken_at,omitempty"`
-	Pk              int64  `json:"pk,omitempty"`
-	ID              string `json:"id,omitempty"`
-	DeviceTimeStamp int64  `json:"device_timestamp,omitempty"`
-	MediaType       int    `json:"media_type,omitempty"`
-	Code            string `json:"code,omitempty"`
+	TakenAt int64  `json:"taken_at,omitempty"`
+	Pk      int64  `json:"pk,omitempty"`
+	ID      string `json:"id,omitempty"`
+	// DeviceTimeStamp int64  `json:"device_timestamp,omitempty"`
+	// MediaType       int    `json:"media_type,omitempty"`
+	Code string `json:"code,omitempty"`
 	// ClientCacheKey               string            `json:"client_cache_key"`
 	// FilterType                   int               `json:"filter_type"`
-	ImageVersions ImageVersions `json:"image_versions2,omitempty"`
+	// ImageVersions ImageVersions `json:"image_versions2,omitempty"`
 	// OriginalWidth                int               `json:"original_width"`
 	// OriginalHeight               int               `json:"original_height"`
-	Location Location `json:"location,omitempty"`
-	Lat      float32  `json:"lat,omitempty"`
-	Lng      float32  `json:"lng,omitempty"`
-	User     User     `json:"user,omitempty"`
+	Location *Location `json:"location,omitempty"`
+	// Lat      float32  `json:"lat,omitempty"`
+	// Lng      float32  `json:"lng,omitempty"`
+	User User `json:"user,omitempty"`
 	// OrganicTrackingToken         string            `json:"organic_tracking_token"`
-	LikeCount int `json:"like_count,omitempty"`
+	// LikeCount int `json:"like_count,omitempty"`
 	// TopLikers                    []string          `json:"top_likers,omitempty"`
-	HasLiked bool `json:"has_liked,omitempty"`
+	// HasLiked bool `json:"has_liked,omitempty"`
 	// HasMoreComments              bool              `json:"has_more_comments"`
 	// MaxNumVisiblePreviewComments int               `json:"max_num_visible_preview_comments"`
 	// PreviewComments              []CommentResponse `json:"preview_comments,omitempty"`
 	// Comments                     []CommentResponse `json:"comments,omitempty"`
-	CommentCount    int      `json:"comment_count,omitempty"`
-	Caption         Caption  `json:"caption,omitempty"`
-	CaptionIsEdited bool     `json:"caption_is_edited,omitempty"`
-	PhotoOfYou      bool     `json:"photo_of_you,omitempty"`
-	Meta            []string `json:"metaData,omitempty"` // Meta data
-	Int64Pagination
+	// CommentCount    int      `json:"comment_count,omitempty"`
+	Caption *Caption `json:"caption,omitempty"`
+	// CaptionIsEdited bool     `json:"caption_is_edited,omitempty"`
+	// PhotoOfYou      bool     `json:"photo_of_you,omitempty"`
+	Meta []string `json:"metaData,omitempty"` // Meta data
+	// Int64Pagination
 }
 
 func (m MediaItemResponse) Exists() bool {
@@ -337,14 +337,14 @@ type Caption struct {
 
 // Location struct mean where photo or video taken
 type Location struct {
-	ExternalSource   string  `json:"external_source,omitempty"`
-	City             string  `json:"city,omitempty"`
-	Name             string  `json:"name,omitempty"`
-	FacebookPlacesID int64   `json:"facebook_places_id,omitempty"`
-	Address          string  `json:"address,omitempty"`
-	Lat              float32 `json:"lat,omitempty"`
-	Lng              float32 `json:"lng,omitempty"`
-	Pk               int64   `json:"pk,omitempty"`
+	// ExternalSource   string  `json:"external_source,omitempty"`
+	// City             string  `json:"city,omitempty"`
+	Name string `json:"name,omitempty"`
+	// FacebookPlacesID int64   `json:"facebook_places_id,omitempty"`
+	// Address          string  `json:"address,omitempty"`
+	// Lat              float32 `json:"lat,omitempty"`
+	// Lng              float32 `json:"lng,omitempty"`
+	// Pk               int64   `json:"pk,omitempty"`
 }
 
 // CommentResponse struct is a object for comment under media
@@ -746,7 +746,7 @@ type Item struct {
 	PreviewComments              []CommentResponse `json:"preview_comments"`
 	Comments                     []CommentResponse `json:"comments"`
 	CommentCount                 int               `json:"comment_count"`
-	Caption                      Caption           `json:"caption"`
+	Caption                      *Caption          `json:"caption"`
 	CaptionIsEdited              bool              `json:"caption_is_edited"`
 	PhotoOfYou                   bool              `json:"photo_of_you"`
 	UserTags                     struct {
@@ -770,35 +770,45 @@ type Item struct {
 		Type   int    `json:"type"`
 		Height int    `json:"height"`
 	} `json:"video_versions,omitempty"`
-	HasAudio      bool     `json:"has_audio,omitempty"`
-	VideoDuration float64  `json:"video_duration,omitempty"`
-	Location      Location `json:"location,omitempty"`
-	Lat           float32  `json:"lat,omitempty"`
-	Lng           float32  `json:"lng,omitempty"`
-	NextMaxID     int64    `json:"next_max_id,omitempty"`
+	HasAudio      bool      `json:"has_audio,omitempty"`
+	VideoDuration float64   `json:"video_duration,omitempty"`
+	Location      *Location `json:"location,omitempty"`
+	Lat           float32   `json:"lat,omitempty"`
+	Lng           float32   `json:"lng,omitempty"`
+	NextMaxID     int64     `json:"next_max_id,omitempty"`
 }
 
 func (t Item) AsMediaItem() MediaItemResponse {
-	return MediaItemResponse{
-		TakenAt:         t.TakenAt,
-		Pk:              t.Pk,
-		ID:              t.ID,
-		DeviceTimeStamp: t.DeviceTimestamp,
-		MediaType:       t.MediaType,
-		Code:            t.Code,
-		ImageVersions:   t.ImageVersions2,
-		Location:        t.Location,
-		Lat:             t.Lat,
-		Lng:             t.Lng,
-		User:            t.User,
-		LikeCount:       t.LikeCount,
-		HasLiked:        t.HasLiked,
-		CommentCount:    t.CommentCount,
-		Caption:         t.Caption,
-		CaptionIsEdited: t.CaptionIsEdited,
-		PhotoOfYou:      t.PhotoOfYou,
-		Int64Pagination: Int64Pagination{t.NextMaxID},
+	r := MediaItemResponse{
+		TakenAt: t.TakenAt,
+		Pk:      t.Pk,
+		ID:      t.ID,
+		// DeviceTimeStamp: t.DeviceTimestamp,
+		// MediaType:       t.MediaType,
+		Code: t.Code,
+		// ImageVersions:   t.ImageVersions2,
+		Location: t.Location,
+		// Lat:             t.Lat,
+		// Lng:             t.Lng,
+		User: t.User,
+		// LikeCount:       t.LikeCount,
+		// HasLiked:        t.HasLiked,
+		// CommentCount:    t.CommentCount,
+		Caption: t.Caption,
+		// CaptionIsEdited: t.CaptionIsEdited,
+		// PhotoOfYou:      t.PhotoOfYou,
+		// Int64Pagination: Int64Pagination{t.NextMaxID},
 	}
+
+	if t.Location != nil {
+		r.Location = t.Location
+	}
+
+	if t.Caption != nil {
+		r.Caption = t.Caption
+	}
+
+	return r
 }
 
 // DirectMessageResponse contains direct messages
