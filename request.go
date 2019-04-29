@@ -101,14 +101,6 @@ func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
 		return
 	}
 
-	if strings.Contains(string(body), "samlight1") {
-		log.Println("STORY REPLY", string(body))
-	}
-
-	if strings.Contains(string(body), "mickael.marquet") {
-		log.Println("NEW MSG", string(body))
-	}
-
 	if resp.StatusCode != 200 && !o.IgnoreStatus {
 		e := fmt.Errorf("Invalid status code %s %d", string(body), resp.StatusCode)
 		switch resp.StatusCode {
