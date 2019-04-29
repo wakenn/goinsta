@@ -627,6 +627,7 @@ type InboxItem struct {
 		PlaybackDurationSecs int    `json:"playback_duration_secs"`
 		URLExpireAtSecs      int    `json:"url_expire_at_secs"`
 		OrganicTrackingToken string `json:"organic_tracking_token"`
+		Code                 string `json:"code"`
 	} `json:"media_share,omitempty"`
 }
 
