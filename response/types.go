@@ -629,6 +629,14 @@ type InboxItem struct {
 		OrganicTrackingToken string `json:"organic_tracking_token"`
 		Code                 string `json:"code"`
 	} `json:"media_share,omitempty"`
+
+	ActionLog struct {
+		Description string `json:"description"`
+	} `json:"action_log,omitempty"`
+
+	ReelShare struct {
+		Text string `json:"text"`
+	} `json:"reel_share,omitempty"`
 }
 
 type DirectThread struct {
