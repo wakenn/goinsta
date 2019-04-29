@@ -26,16 +26,16 @@ type UsersResponse struct {
 
 // User , Instagram user informations
 type User struct {
-	Username                   string `json:"username"`
-	HasAnonymousProfilePicture bool   `json:"has_anonymouse_profile_picture"`
-	ProfilePictureID           string `json:"profile_pic_id"`
-	ProfilePictureURL          string `json:"profile_pic_url"`
-	FullName                   string `json:"full_name"`
-	ID                         int64  `json:"pk"`
-	IsVerified                 bool   `json:"is_verified"`
-	IsPrivate                  bool   `json:"is_private"`
-	IsFavorite                 bool   `json:"is_favorite"`
-	IsUnpublished              bool   `json:"is_unpublished"`
+	Username string `json:"username,omitempty"`
+	// HasAnonymousProfilePicture bool   `json:"has_anonymouse_profile_picture"`
+	// ProfilePictureID           string `json:"profile_pic_id"`
+	ProfilePictureURL string `json:"profile_pic_url,omitempty"`
+	FullName          string `json:"full_name,omitempty"`
+	ID                int64  `json:"pk,omitempty"`
+	IsVerified        bool   `json:"is_verified,omitempty"`
+	IsPrivate         bool   `json:"is_private,omitempty"`
+	// IsFavorite        bool   `json:"is_favorite"`
+	// IsUnpublished     bool   `json:"is_unpublished"`
 }
 
 type SimpleUser struct {
@@ -123,35 +123,35 @@ func (s *SearchLocationResponse) Unique() *SearchLocationResponse {
 
 // MediaItemResponse struct for each media item
 type MediaItemResponse struct {
-	TakenAt         int64  `json:"taken_at,omitempty"`
-	Pk              int64  `json:"pk,omitempty"`
-	ID              string `json:"id,omitempty"`
-	DeviceTimeStamp int64  `json:"device_timestamp,omitempty"`
-	MediaType       int    `json:"media_type,omitempty"`
-	Code            string `json:"code,omitempty"`
+	TakenAt int64  `json:"taken_at,omitempty"`
+	Pk      int64  `json:"pk,omitempty"`
+	ID      string `json:"id,omitempty"`
+	// DeviceTimeStamp int64  `json:"device_timestamp,omitempty"`
+	// MediaType       int    `json:"media_type,omitempty"`
+	Code string `json:"code,omitempty"`
 	// ClientCacheKey               string            `json:"client_cache_key"`
 	// FilterType                   int               `json:"filter_type"`
-	ImageVersions ImageVersions `json:"image_versions2,omitempty"`
+	// ImageVersions ImageVersions `json:"image_versions2,omitempty"`
 	// OriginalWidth                int               `json:"original_width"`
 	// OriginalHeight               int               `json:"original_height"`
-	Location Location `json:"location,omitempty"`
-	Lat      float32  `json:"lat,omitempty"`
-	Lng      float32  `json:"lng,omitempty"`
-	User     User     `json:"user,omitempty"`
+	Location *Location `json:"location,omitempty"`
+	// Lat      float32  `json:"lat,omitempty"`
+	// Lng      float32  `json:"lng,omitempty"`
+	User User `json:"user,omitempty"`
 	// OrganicTrackingToken         string            `json:"organic_tracking_token"`
-	LikeCount int `json:"like_count,omitempty"`
+	// LikeCount int `json:"like_count,omitempty"`
 	// TopLikers                    []string          `json:"top_likers,omitempty"`
-	HasLiked bool `json:"has_liked,omitempty"`
+	// HasLiked bool `json:"has_liked,omitempty"`
 	// HasMoreComments              bool              `json:"has_more_comments"`
 	// MaxNumVisiblePreviewComments int               `json:"max_num_visible_preview_comments"`
 	// PreviewComments              []CommentResponse `json:"preview_comments,omitempty"`
 	// Comments                     []CommentResponse `json:"comments,omitempty"`
-	CommentCount    int      `json:"comment_count,omitempty"`
-	Caption         Caption  `json:"caption,omitempty"`
-	CaptionIsEdited bool     `json:"caption_is_edited,omitempty"`
-	PhotoOfYou      bool     `json:"photo_of_you,omitempty"`
-	Meta            []string `json:"metaData,omitempty"` // Meta data
-	Int64Pagination
+	// CommentCount    int      `json:"comment_count,omitempty"`
+	Caption *Caption `json:"caption,omitempty"`
+	// CaptionIsEdited bool     `json:"caption_is_edited,omitempty"`
+	// PhotoOfYou      bool     `json:"photo_of_you,omitempty"`
+	Meta []string `json:"metaData,omitempty"` // Meta data
+	// Int64Pagination
 }
 
 func (m MediaItemResponse) Exists() bool {
@@ -337,29 +337,29 @@ type Caption struct {
 
 // Location struct mean where photo or video taken
 type Location struct {
-	ExternalSource   string  `json:"external_source,omitempty"`
-	City             string  `json:"city,omitempty"`
-	Name             string  `json:"name,omitempty"`
-	FacebookPlacesID int64   `json:"facebook_places_id,omitempty"`
-	Address          string  `json:"address,omitempty"`
-	Lat              float32 `json:"lat,omitempty"`
-	Lng              float32 `json:"lng,omitempty"`
-	Pk               int64   `json:"pk,omitempty"`
+	// ExternalSource   string  `json:"external_source,omitempty"`
+	// City             string  `json:"city,omitempty"`
+	Name string `json:"name,omitempty"`
+	// FacebookPlacesID int64   `json:"facebook_places_id,omitempty"`
+	// Address          string  `json:"address,omitempty"`
+	// Lat              float32 `json:"lat,omitempty"`
+	// Lng              float32 `json:"lng,omitempty"`
+	// Pk               int64   `json:"pk,omitempty"`
 }
 
 // CommentResponse struct is a object for comment under media
 type CommentResponse struct {
 	StatusResponse
-	// UserID       int64  `json:"user_id"`
-	// CreatedAtUTC int64  `json:"created_at_utc"`
+	UserID       int64 `json:"user_id"`
+	CreatedAtUTC int64 `json:"created_at_utc"`
 	// CreatedAt    int64  `json:"created_at"`
 	// BitFlags     int    `json:"bit_flags"`
 	// User         User   `json:"user"`
 	// ContentType  string `json:"content_type"`
-	Text string `json:"text"`
-	// MediaID      int64  `json:"media_id"`
-	// Pk           int64  `json:"pk"`
-	// Type         int    `json:"type"`
+	Text    string `json:"text"`
+	MediaID int64  `json:"media_id"`
+	Pk      int64  `json:"pk"`
+	Type    int    `json:"type"`
 }
 
 // MediaCommentsResponse struct for get array of comments of a media
@@ -558,70 +558,132 @@ type DirectRankedRecipients struct {
 			ThreadType  string `json:"thread_type"`
 			ThreadID    string `json:"thread_id"`
 			ThreadTitle string `json:"thread_title"`
-			Pending     bool   `json:"pending"`
+			Pending     bool   `json:"pending,omitempty"`
 		} `json:"thread"`
 	} `json:"ranked_recipients"`
 }
 
-// DirectThread is a thread of directs
-type DirectThread struct {
-	Status string `json:"status"`
-	Thread struct {
-		Named bool `json:"named"`
-		Users []struct {
-			Username                   string `json:"username"`
-			HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
-			FriendshipStatus           struct {
-				Following       bool `json:"following"`
-				IncomingRequest bool `json:"incoming_request"`
-				OutgoingRequest bool `json:"outgoing_request"`
-				Blocking        bool `json:"blocking"`
-				IsPrivate       bool `json:"is_private"`
-			} `json:"friendship_status"`
-			ProfilePicURL string `json:"profile_pic_url"`
-			ProfilePicID  string `json:"profile_pic_id"`
-			FullName      string `json:"full_name"`
-			Pk            int64  `json:"pk"`
-			IsVerified    bool   `json:"is_verified"`
-			IsPrivate     bool   `json:"is_private"`
-		} `json:"users"`
-		ViewerID         int64            `json:"viewer_id"`
-		MoreAvailableMin bool             `json:"more_available_min"`
-		ThreadID         string           `json:"thread_id"`
-		ImageVersions2   ImageVersions    `json:"image_versions2"`
-		LastActivityAt   int64            `json:"last_activity_at"`
-		NextMaxID        string           `json:"next_max_id"`
-		Canonical        bool             `json:"canonical"`
-		LeftUsers        []interface{}    `json:"left_users"`
-		NextMinID        string           `json:"next_min_id"`
-		Muted            bool             `json:"muted"`
-		Items            []ItemMediaShare `json:"items"`
-		ThreadType       string           `json:"thread_type"`
-		MoreAvailableMax bool             `json:"more_available_max"`
-		ThreadTitle      string           `json:"thread_title"`
-		LastSeenAt       struct {
-			Num1572292791 struct {
-				ItemID    string `json:"item_id"`
-				Timestamp string `json:"timestamp"`
-			} `json:"1572292791"`
-			Num4043092277 struct {
-				ItemID    string `json:"item_id"`
-				Timestamp string `json:"timestamp"`
-			} `json:"4043092277"`
-		} `json:"last_seen_at"`
-		Inviter struct {
-			Username                   string `json:"username"`
-			HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
-			ProfilePicURL              string `json:"profile_pic_url"`
-			ProfilePicID               string `json:"profile_pic_id"`
-			FullName                   string `json:"full_name"`
-			Pk                         int64  `json:"pk"`
-			IsVerified                 bool   `json:"is_verified"`
-			IsPrivate                  bool   `json:"is_private"`
-		} `json:"inviter"`
-		Pending bool `json:"pending"`
-	} `json:"thread"`
+type Conversation struct {
+	ID   string `json:"thread_id"`
+	V2ID string `json:"thread_v2_id"`
+	// Items can be of many types.
+	Items                     []InboxItem `json:"items"`
+	Title                     string      `json:"thread_title"`
+	Users                     []User      `json:"users"`
+	LeftUsers                 []User      `json:"left_users"`
+	Pending                   bool        `json:"pending"`
+	PendingScore              int64       `json:"pending_score"`
+	ReshareReceiveCount       int         `json:"reshare_receive_count"`
+	ReshareSendCount          int         `json:"reshare_send_count"`
+	ViewerID                  int64       `json:"viewer_id"`
+	ValuedRequest             bool        `json:"valued_request"`
+	LastActivityAt            int64       `json:"last_activity_at"`
+	Muted                     bool        `json:"muted"`
+	IsPin                     bool        `json:"is_pin"`
+	Named                     bool        `json:"named"`
+	ThreadType                string      `json:"thread_type"`
+	ExpiringMediaSendCount    int         `json:"expiring_media_send_count"`
+	ExpiringMediaReceiveCount int         `json:"expiring_media_receive_count"`
+	Inviter                   User        `json:"inviter"`
+	HasOlder                  bool        `json:"has_older"`
+	HasNewer                  bool        `json:"has_newer"`
+	LastSeenAt                map[string]struct {
+		Timestamp string `json:"timestamp"`
+		ItemID    string `json:"item_id"`
+	} `json:"last_seen_at"`
+	NewestCursor      string `json:"newest_cursor"`
+	OldestCursor      string `json:"oldest_cursor"`
+	IsSpam            bool   `json:"is_spam"`
+	LastPermanentItem Item   `json:"last_permanent_item"`
 }
+
+// InboxItem is any conversation message.
+type InboxItem struct {
+	ID        string `json:"item_id"`
+	UserID    int64  `json:"user_id"`
+	Timestamp int64  `json:"timestamp"`
+	// ClientContext string `json:"client_context"`
+
+	// Type there are a few types:
+	// text, like, raven_media
+	Type string `json:"item_type"`
+
+	// Text is message text.
+	Text string `json:"text"`
+
+	// InboxItemLike is the heart that your girlfriend send to you.
+	// (or in my case: the heart that my fans sends to me hehe)
+
+	Like string `json:"like"`
+
+	// Media is image or video
+	Media struct {
+		ID                   string `json:"id"`
+		Images               Images `json:"image_versions2"`
+		OriginalWidth        int    `json:"original_width"`
+		OriginalHeight       int    `json:"original_height"`
+		MediaType            int    `json:"media_type"`
+		MediaID              int64  `json:"media_id"`
+		PlaybackDurationSecs int    `json:"playback_duration_secs"`
+		URLExpireAtSecs      int    `json:"url_expire_at_secs"`
+		OrganicTrackingToken string `json:"organic_tracking_token"`
+	} `json:"media_share,omitempty"`
+}
+
+type DirectThread struct {
+	Conversation Conversation `json:"thread"`
+	Status       string       `json:"status"`
+}
+
+// // DirectThread is a thread of directs
+// type DirectThread struct {
+// 	Status string `json:"status,omitempty"`
+// 	Thread struct {
+// 		Named bool `json:"named,omitempty"`
+// 		Users []struct {
+// 			Username                   string `json:"username,omitempty"`
+// 			HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture,omitempty"`
+// 			FriendshipStatus           struct {
+// 				Following       bool `json:"following,omitempty"`
+// 				IncomingRequest bool `json:"incoming_request,omitempty"`
+// 				OutgoingRequest bool `json:"outgoing_request,omitempty"`
+// 				Blocking        bool `json:"blocking,omitempty"`
+// 				IsPrivate       bool `json:"is_private,omitempty"`
+// 			} `json:"friendship_status,omitempty"`
+// 			ProfilePicURL string `json:"profile_pic_url,omitempty"`
+// 			ProfilePicID  string `json:"profile_pic_id,omitempty"`
+// 			FullName      string `json:"full_name,omitempty"`
+// 			Pk            int64  `json:"pk,omitempty"`
+// 			IsVerified    bool   `json:"is_verified,omitempty"`
+// 			IsPrivate     bool   `json:"is_private,omitempty"`
+// 		} `json:"users,omitempty"`
+// 		ViewerID         int64            `json:"viewer_id,omitempty"`
+// 		MoreAvailableMin bool             `json:"more_available_min,omitempty"`
+// 		ThreadID         string           `json:"thread_id,omitempty"`
+// 		ImageVersions2   ImageVersions    `json:"image_versions2,omitempty"`
+// 		LastActivityAt   int64            `json:"last_activity_at,omitempty"`
+// 		NextMaxID        string           `json:"next_max_id,omitempty"`
+// 		Canonical        bool             `json:"canonical,omitempty"`
+// 		LeftUsers        []interface{}    `json:"left_users,omitempty"`
+// 		NextMinID        string           `json:"next_min_id,omitempty"`
+// 		Muted            bool             `json:"muted,omitempty"`
+// 		Items            []ItemMediaShare `json:"items,omitempty"`
+// 		ThreadType       string           `json:"thread_type,omitempty"`
+// 		MoreAvailableMax bool             `json:"more_available_max,omitempty"`
+// 		ThreadTitle      string           `json:"thread_title,omitempty"`
+// 		Inviter struct {
+// 			Username                   string `json:"username"`
+// 			HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
+// 			ProfilePicURL              string `json:"profile_pic_url"`
+// 			ProfilePicID               string `json:"profile_pic_id"`
+// 			FullName                   string `json:"full_name"`
+// 			Pk                         int64  `json:"pk"`
+// 			IsVerified                 bool   `json:"is_verified"`
+// 			IsPrivate                  bool   `json:"is_private"`
+// 		} `json:"inviter"`
+// 		Pending bool `json:"pending"`
+// 	} `json:"thread"`
+// }
 
 type UserTaggedFeedResponse struct {
 	Status              string `json:"status"`
@@ -684,7 +746,7 @@ type Item struct {
 	PreviewComments              []CommentResponse `json:"preview_comments"`
 	Comments                     []CommentResponse `json:"comments"`
 	CommentCount                 int               `json:"comment_count"`
-	Caption                      Caption           `json:"caption"`
+	Caption                      *Caption          `json:"caption"`
 	CaptionIsEdited              bool              `json:"caption_is_edited"`
 	PhotoOfYou                   bool              `json:"photo_of_you"`
 	UserTags                     struct {
@@ -708,35 +770,45 @@ type Item struct {
 		Type   int    `json:"type"`
 		Height int    `json:"height"`
 	} `json:"video_versions,omitempty"`
-	HasAudio      bool     `json:"has_audio,omitempty"`
-	VideoDuration float64  `json:"video_duration,omitempty"`
-	Location      Location `json:"location,omitempty"`
-	Lat           float32  `json:"lat,omitempty"`
-	Lng           float32  `json:"lng,omitempty"`
-	NextMaxID     int64    `json:"next_max_id,omitempty"`
+	HasAudio      bool      `json:"has_audio,omitempty"`
+	VideoDuration float64   `json:"video_duration,omitempty"`
+	Location      *Location `json:"location,omitempty"`
+	Lat           float32   `json:"lat,omitempty"`
+	Lng           float32   `json:"lng,omitempty"`
+	NextMaxID     int64     `json:"next_max_id,omitempty"`
 }
 
 func (t Item) AsMediaItem() MediaItemResponse {
-	return MediaItemResponse{
-		TakenAt:         t.TakenAt,
-		Pk:              t.Pk,
-		ID:              t.ID,
-		DeviceTimeStamp: t.DeviceTimestamp,
-		MediaType:       t.MediaType,
-		Code:            t.Code,
-		ImageVersions:   t.ImageVersions2,
-		Location:        t.Location,
-		Lat:             t.Lat,
-		Lng:             t.Lng,
-		User:            t.User,
-		LikeCount:       t.LikeCount,
-		HasLiked:        t.HasLiked,
-		CommentCount:    t.CommentCount,
-		Caption:         t.Caption,
-		CaptionIsEdited: t.CaptionIsEdited,
-		PhotoOfYou:      t.PhotoOfYou,
-		Int64Pagination: Int64Pagination{t.NextMaxID},
+	r := MediaItemResponse{
+		TakenAt: t.TakenAt,
+		Pk:      t.Pk,
+		ID:      t.ID,
+		// DeviceTimeStamp: t.DeviceTimestamp,
+		// MediaType:       t.MediaType,
+		Code: t.Code,
+		// ImageVersions:   t.ImageVersions2,
+		Location: t.Location,
+		// Lat:             t.Lat,
+		// Lng:             t.Lng,
+		User: t.User,
+		// LikeCount:       t.LikeCount,
+		// HasLiked:        t.HasLiked,
+		// CommentCount:    t.CommentCount,
+		Caption: t.Caption,
+		// CaptionIsEdited: t.CaptionIsEdited,
+		// PhotoOfYou:      t.PhotoOfYou,
+		// Int64Pagination: Int64Pagination{t.NextMaxID},
 	}
+
+	if t.Location != nil {
+		r.Location = t.Location
+	}
+
+	if t.Caption != nil {
+		r.Caption = t.Caption
+	}
+
+	return r
 }
 
 // DirectMessageResponse contains direct messages
@@ -1267,7 +1339,7 @@ type DirectListResponse struct {
 	Inbox struct {
 		Threads []struct {
 			ThreadID   string `json:"thread_id"`
-			ThreadV2ID int64  `json:"thread_v2_id"`
+			ThreadV2ID string `json:"thread_v2_id"`
 			Users      []struct {
 				Pk               int64  `json:"pk"`
 				Username         string `json:"username"`
@@ -1488,6 +1560,31 @@ type TrayResponse struct {
 			ImpressionToken string `json:"impression_token"`
 		} `json:"items"`
 	} `json:"tray"`
+}
+
+// Images are different quality images
+type Images struct {
+	Versions []Candidate `json:"candidates"`
+}
+
+// GetBest returns the URL of the image with the best quality.
+func (img Images) GetBest() string {
+	best := ""
+	var mh, mw int
+	for _, v := range img.Versions {
+		if v.Width > mw || v.Height > mh {
+			best = v.URL
+			mh, mw = v.Height, v.Width
+		}
+	}
+	return best
+}
+
+// Candidate is something that I really have no idea what it is.
+type Candidate struct {
+	Width  int    `json:"width"`
+	Height int    `json:"height"`
+	URL    string `json:"url"`
 }
 
 // TrayUserResponse - Response for specific user tray
