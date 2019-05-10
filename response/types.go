@@ -341,7 +341,7 @@ type Location struct {
 	// City             string  `json:"city,omitempty"`
 	Name string `json:"name,omitempty"`
 	// FacebookPlacesID int64   `json:"facebook_places_id,omitempty"`
-	// Address          string  `json:"address,omitempty"`
+	// Address string `json:"address,omitempty"`
 	// Lat              float32 `json:"lat,omitempty"`
 	// Lng              float32 `json:"lng,omitempty"`
 	// Pk               int64   `json:"pk,omitempty"`
@@ -360,6 +360,7 @@ type CommentResponse struct {
 	MediaID int64  `json:"media_id"`
 	Pk      int64  `json:"pk"`
 	Type    int    `json:"type"`
+	User    User   `json:"user"`
 }
 
 // MediaCommentsResponse struct for get array of comments of a media
@@ -409,11 +410,11 @@ type GetUserID struct {
 // GetUsernameResponse return special userinformation
 type GetUsernameResponse struct {
 	User struct {
-		IsPrivate            bool   `json:"is_private"`
-		ExternalLynxURL      string `json:"external_lynx_url"`
-		IsVerified           bool   `json:"is_verified"`
-		MediaCount           int    `json:"media_count"`
-		AutoExpandChaining   bool   `json:"auto_expand_chaining"`
+		IsPrivate bool `json:"is_private"`
+		// ExternalLynxURL      string `json:"external_lynx_url"`
+		IsVerified bool `json:"is_verified"`
+		MediaCount int  `json:"media_count"`
+		// AutoExpandChaining   bool   `json:"auto_expand_chaining"`
 		IsFavorite           bool   `json:"is_favorite"`
 		FullName             string `json:"full_name"`
 		ID                   int64  `json:"pk"`
@@ -426,11 +427,11 @@ type GetUsernameResponse struct {
 			Width  int    `json:"width"`
 			URL    string `json:"url"`
 		} `json:"hd_profile_pic_versions"`
-		HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
-		ProfilePicID               string `json:"profile_pic_id"`
-		UserTagsCount              int    `json:"usertags_count"`
-		Username                   string `json:"username"`
-		HdProfilePicURLInfo        struct {
+		// HasAnonymousProfilePicture bool   `json:"has_anonymous_profile_picture"`
+		ProfilePicID        string `json:"profile_pic_id"`
+		UserTagsCount       int    `json:"usertags_count"`
+		Username            string `json:"username"`
+		HdProfilePicURLInfo struct {
 			Height int    `json:"height"`
 			Width  int    `json:"width"`
 			URL    string `json:"url"`
@@ -438,7 +439,7 @@ type GetUsernameResponse struct {
 		GeoMediaCount int    `json:"geo_media_count"`
 		IsBusiness    bool   `json:"is_business"`
 		Biography     string `json:"biography"`
-		HasChaining   bool   `json:"has_chaining"`
+		// HasChaining   bool   `json:"has_chaining"`
 	} `json:"user"`
 	Status string `json:"status"`
 }
