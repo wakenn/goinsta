@@ -329,6 +329,18 @@ type ImageCandidate struct {
 	Height int    `json:"height"`
 }
 
+func (img ImageVersions) GetBest() string {
+	best := ""
+	var mh, mw int
+	for _, v := range img.Candidates {
+		if v.Width > mw || v.Height > mh {
+			best = v.URL
+			mh, mw = v.Height, v.Width
+		}
+	}
+	return best
+}
+
 // Caption struct point to caption of a media
 type Caption struct {
 	CommentResponse
