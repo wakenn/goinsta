@@ -97,6 +97,8 @@ const (
 	GOINSTA_SIG_KEY_VERSION = "4"
 )
 
+var errNil = fmt.Errorf("nil instance")
+
 // GOINSTA_DEVICE_SETTINGS variable is a simulate of an android device
 var GOINSTA_DEVICE_SETTINGS = map[string]interface{}{
 	"manufacturer":    "Xiaomi",
@@ -127,6 +129,7 @@ func New(username, password string) *Instagram {
 		UUID:     generateUUID(true),
 		PhoneID:  generateUUID(true),
 	}
+
 	return &Instagram{
 		InstaType: InstaType{
 			Informations: information,
@@ -151,6 +154,10 @@ type ErrorLoad struct {
 }
 
 func (insta *Instagram) SetProxy(p string) error {
+	if insta == nil {
+		return errNil
+	}
+
 	purl, err := url.Parse(p)
 	if err != nil {
 		return err
@@ -161,6 +168,10 @@ func (insta *Instagram) SetProxy(p string) error {
 }
 
 func (insta *Instagram) Login() (*ErrorLoad, error) {
+	if insta == nil {
+		return nil, errNil
+	}
+
 	insta.Cookiejar, _ = cookiejar.New(nil) //newJar()
 
 	body, err := insta.sendRequest(&reqOptions{
@@ -232,6 +243,10 @@ func (insta *Instagram) Login() (*ErrorLoad, error) {
 
 // Logout of Instagram
 func (insta *Instagram) Logout() error {
+	if insta == nil {
+		return errNil
+	}
+
 	_, err := insta.sendSimpleRequest("accounts/logout/")
 	insta.Cookiejar = nil
 	return err
@@ -240,6 +255,12 @@ func (insta *Instagram) Logout() error {
 // UserFollowing return followings of specific user
 // skip maxid with empty string for get first page
 func (insta *Instagram) UserFollowing(userID int64, maxID string) (response.UsersResponse, error) {
+	resp := response.UsersResponse{}
+
+	if insta == nil {
+		return resp, errNil
+	}
+
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf("friendships/%d/following/", userID),
 		Query: map[string]string{
@@ -252,7 +273,6 @@ func (insta *Instagram) UserFollowing(userID int64, maxID string) (response.User
 		return response.UsersResponse{}, err
 	}
 
-	resp := response.UsersResponse{}
 	err = json.Unmarshal(body, &resp)
 
 	return resp, err
@@ -261,6 +281,12 @@ func (insta *Instagram) UserFollowing(userID int64, maxID string) (response.User
 // UserFollowers return followers of specific user
 // skip maxid with empty string for get first page
 func (insta *Instagram) UserFollowers(userID int64, maxID string) (response.UsersResponse, error) {
+	resp := response.UsersResponse{}
+
+	if insta == nil {
+		return resp, errNil
+	}
+
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf("friendships/%d/followers/", userID),
 		Query: map[string]string{
@@ -273,7 +299,6 @@ func (insta *Instagram) UserFollowers(userID int64, maxID string) (response.User
 		return response.UsersResponse{}, err
 	}
 
-	resp := response.UsersResponse{}
 	err = json.Unmarshal(body, &resp)
 
 	return resp, err
@@ -293,6 +318,9 @@ func (insta *Instagram) LatestUserFeed(userID int64) (response.UserFeedResponse,
 // You can use maxID and minTimestamp for pagination, otherwise leave them empty to get the latest page only.
 func (insta *Instagram) UserFeed(userID int64, maxID, minTimestamp, maxTimestamp string) (response.UserFeedResponse, error) {
 	resp := response.UserFeedResponse{}
+	if insta == nil {
+		return resp, errNil
+	}
 
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf("feed/user/%d/", userID),
@@ -304,6 +332,7 @@ func (insta *Instagram) UserFeed(userID int64, maxID, minTimestamp, maxTimestamp
 			"ranked_content": "true",
 		},
 	})
+
 	if err != nil {
 		return resp, err
 	}
@@ -316,6 +345,14 @@ func (insta *Instagram) UserFeed(userID int64, maxID, minTimestamp, maxTimestamp
 // UserTaggedFeed - Returns the feed for medua a given user is tagged in
 func (insta *Instagram) UserTaggedFeed(userID, maxID int64, minTimestamp string) (response.UserTaggedFeedResponse, error) {
 	resp := response.UserTaggedFeedResponse{}
+
+	if insta == nil {
+		return resp, errNil
+	}
+
+	if insta == nil {
+		return resp, errNil
+	}
 	maxid := ""
 	if maxID != 0 {
 		maxid = string(maxID)
@@ -343,6 +380,10 @@ func (insta *Instagram) UserTaggedFeed(userID, maxID int64, minTimestamp string)
 // You can use maxID for pagination, otherwise leave it empty to get the latest page only.
 func (insta *Instagram) MediaComments(mediaID string, maxID string) (response.MediaCommentsResponse, error) {
 	resp := response.MediaCommentsResponse{}
+
+	if insta == nil {
+		return resp, errNil
+	}
 
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf("media/%s/comments", mediaID),

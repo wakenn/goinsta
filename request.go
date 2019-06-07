@@ -33,6 +33,9 @@ func (insta *Instagram) sendSimpleRequest(endpoint string, a ...interface{}) (bo
 }
 
 func (insta *Instagram) sendRequest(o *reqOptions) (body []byte, err error) {
+	if insta == nil {
+		return nil, errNil
+	}
 
 	if !insta.IsLoggedIn && !o.IsLoggedIn {
 		return nil, fmt.Errorf("not logged in")
