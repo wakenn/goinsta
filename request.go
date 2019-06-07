@@ -27,6 +27,9 @@ func (insta *Instagram) OptionalRequest(endpoint string, a ...interface{}) (body
 }
 
 func (insta *Instagram) sendSimpleRequest(endpoint string, a ...interface{}) (body []byte, err error) {
+	if insta == nil {
+		return nil, errNil
+	}
 	return insta.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf(endpoint, a...),
 	})

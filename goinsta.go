@@ -1342,6 +1342,10 @@ func (insta *Instagram) GetRecentActivity() (response.RecentActivityResponse, er
 
 func (insta *Instagram) GetFollowingRecentActivity() (response.FollowingRecentActivityResponse, error) {
 	result := response.FollowingRecentActivityResponse{}
+	if insta == nil {
+		return result, errNil
+	}
+
 	bytes, err := insta.sendSimpleRequest("news/?")
 	if err != nil {
 		return result, err
@@ -1355,6 +1359,10 @@ func (insta *Instagram) GetFollowingRecentActivity() (response.FollowingRecentAc
 
 func (insta *Instagram) SearchUsername(query string) (response.SearchUserResponse, error) {
 	result := response.SearchUserResponse{}
+	if insta == nil {
+		return result, errNil
+	}
+
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: "users/search/",
 		Query: map[string]string{
@@ -1390,6 +1398,9 @@ func (insta *Instagram) FindUser(query string) (int64, error) {
 
 func (insta *Instagram) SearchTags(query string) (response.SearchTagsResponse, error) {
 	result := response.SearchTagsResponse{}
+	if insta == nil {
+		return result, errNil
+	}
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: "tags/search/",
 		Query: map[string]string{
@@ -1408,6 +1419,9 @@ func (insta *Instagram) SearchTags(query string) (response.SearchTagsResponse, e
 }
 
 func (insta *Instagram) SearchFacebookUsers(query string) ([]byte, error) {
+	if insta == nil {
+		return nil, errNil
+	}
 	return insta.sendRequest(&reqOptions{
 		Endpoint: "fbsearch/topsearch/",
 		Query: map[string]string{
@@ -1421,6 +1435,9 @@ func (insta *Instagram) SearchFacebookUsers(query string) ([]byte, error) {
 // Recipient must be user id.
 func (insta *Instagram) DirectMessage(recipient string, message string) (response.DirectMessageResponse, error) {
 	result := response.DirectMessageResponse{}
+	if insta == nil {
+		return result, errNil
+	}
 	recipients, err := json.Marshal([][]string{{recipient}})
 	if err != nil {
 		return result, err
@@ -1481,6 +1498,9 @@ func (insta *Instagram) GetReelsTrayFeed() (response.TrayResponse, error) {
 // GetUserStories - Get all available Instagram stories for the given user id
 func (insta *Instagram) GetUserStories(userID int64) (response.StoryResponse, error) {
 	result := response.StoryResponse{}
+	if insta == nil {
+		return result, errNil
+	}
 	if userID == 0 {
 		return result, nil
 	}
@@ -1497,6 +1517,9 @@ func (insta *Instagram) GetUserStories(userID int64) (response.StoryResponse, er
 
 func (insta *Instagram) UserFriendShip(userID int64) (response.UserFriendShipResponse, error) {
 	result := response.UserFriendShipResponse{}
+	if insta == nil {
+		return result, errNil
+	}
 	data, err := insta.prepareData(map[string]interface{}{
 		"user_id": userID,
 	})
@@ -1521,6 +1544,9 @@ func (insta *Instagram) UserFriendShip(userID int64) (response.UserFriendShipRes
 
 func (insta *Instagram) GetPopularFeed() (response.GetPopularFeedResponse, error) {
 	result := response.GetPopularFeedResponse{}
+	if insta == nil {
+		return result, errNil
+	}
 	bytes, err := insta.sendRequest(&reqOptions{
 		Endpoint: "feed/popular/",
 		Query: map[string]string{
