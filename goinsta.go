@@ -753,6 +753,11 @@ func (insta *Instagram) GetLocationFeed(locationID int64, maxID string) (respons
 
 // GetLocationFeed return location feed data by locationID in Instagram
 func (insta *Instagram) GetLocationFeedV2(locationID int64) (response.Section, error) {
+	resp := response.Section{}
+	if insta == nil {
+		return resp, errNil
+	}
+
 	data, err := insta.prepareData(map[string]interface{}{
 		"rank_token":     insta.Informations.RankToken,
 		"ranked_content": "true",
@@ -768,13 +773,17 @@ func (insta *Instagram) GetLocationFeedV2(locationID int64) (response.Section, e
 		return response.Section{}, err
 	}
 
-	resp := response.Section{}
 	err = json.Unmarshal(body, &resp)
 	return resp, err
 }
 
 // GetTagRelated can get related tags by tags in instagram
 func (insta *Instagram) GetTagRelated(tag string) (response.TagRelatedResponse, error) {
+	resp := response.TagRelatedResponse{}
+	if insta == nil {
+		return resp, errNil
+	}
+
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf("tags/%s/related", tag),
 		Query: map[string]string{
@@ -786,13 +795,17 @@ func (insta *Instagram) GetTagRelated(tag string) (response.TagRelatedResponse, 
 	if err != nil {
 		return response.TagRelatedResponse{}, err
 	}
-	resp := response.TagRelatedResponse{}
 	err = json.Unmarshal(body, &resp)
 	return resp, err
 }
 
 // TagFeed search by tags in instagram
 func (insta *Instagram) TagFeed(tag string) (response.TagFeedsResponse, error) {
+	resp := response.TagFeedsResponse{}
+	if insta == nil {
+		return resp, errNil
+	}
+
 	body, err := insta.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf("feed/tag/%s/", tag),
 		Query: map[string]string{
@@ -805,7 +818,6 @@ func (insta *Instagram) TagFeed(tag string) (response.TagFeedsResponse, error) {
 		return response.TagFeedsResponse{}, err
 	}
 
-	resp := response.TagFeedsResponse{}
 	err = json.Unmarshal(body, &resp)
 
 	return resp, err
@@ -1528,6 +1540,10 @@ func (insta *Instagram) GetPopularFeed() (response.GetPopularFeedResponse, error
 }
 
 func (insta *Instagram) prepareData(otherData ...map[string]interface{}) (string, error) {
+	if insta == nil {
+		return "", errNil
+	}
+
 	data := map[string]interface{}{
 		"_uuid":      insta.Informations.UUID,
 		"_uid":       insta.LoggedInUser.ID,
